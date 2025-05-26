@@ -1,95 +1,127 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { projects } from "../data/projects";
+import ContactSection from "../components/layout/Contact";
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  // Show only the latest 3 projects on the homepage
+  const latestProjects = projects.slice(0, 3);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+  return (
+    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "2rem 1rem" }}>
+      <section style={{ marginBottom: "4rem", textAlign: "center" }}>
+        <h1 style={{ fontSize: "3rem", marginBottom: "1rem" }}>
+          Hi, I'm Developer Name
+        </h1>
+        <p style={{ fontSize: "1.2rem", maxWidth: "800px", margin: "0 auto" }}>
+          A passionate web developer focused on creating modern, responsive
+          websites and applications.
+        </p>
+      </section>
+
+      <section style={{ marginBottom: "4rem" }}>
+        <h2 style={{ marginBottom: "1rem", textAlign: "center" }}>
+          Latest Projects
+        </h2>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gap: "2rem",
+          }}
+        >
+          {latestProjects.map((project, index) => (
+            <div
+              key={index}
+              style={{
+                background: "white",
+                borderRadius: "8px",
+                padding: "1.5rem",
+                boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+              }}
+            >
+              <h3 style={{ color: "var(--primary-color)" }}>{project.title}</h3>
+              <p
+                style={{
+                  color: "#666",
+                  fontSize: "0.85rem",
+                  margin: "0.5rem 0",
+                }}
+              >
+                {project.date}
+              </p>
+              <p style={{ marginBottom: "1rem" }}>{project.description}</p>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "0.5rem",
+                  marginBottom: "1rem",
+                }}
+              >
+                {project.technologies.slice(0, 3).map((tech, i) => (
+                  <span
+                    key={i}
+                    style={{
+                      background: "#f0f0f0",
+                      padding: "0.2rem 0.6rem",
+                      borderRadius: "20px",
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <Link
+                href={`/projects/${project.id}`}
+                style={{
+                  color: "var(--primary-color)",
+                  fontWeight: "500",
+                }}
+              >
+                View Details →
+              </Link>
+            </div>
+          ))}
         </div>
-      </main>
-      <footer className={styles.footer}>
+        <div style={{ textAlign: "center", marginTop: "2rem" }}>
+          <Link
+            href="/projects"
+            style={{
+              display: "inline-block",
+              padding: "0.75rem 1.5rem",
+              background: "var(--primary-color)",
+              color: "white",
+              borderRadius: "4px",
+              fontWeight: "500",
+            }}
+          >
+            View All Projects
+          </Link>
+        </div>
+      </section>
+
+      <section id="contact" style={{ textAlign: "center" }}>
+        <h2 style={{ marginBottom: "1rem" }}>Get In Touch</h2>
+        <p style={{ marginBottom: "2rem" }}>
+          I'm currently available for freelance work or full-time positions.
+        </p>
         <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="mailto:your.email@example.com"
+          style={{
+            display: "inline-block",
+            padding: "0.75rem 1.5rem",
+            background: "var(--primary-color)",
+            color: "white",
+            borderRadius: "4px",
+            fontWeight: "500",
+          }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
+          Contact Me
         </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+      <ContactSection />
     </div>
   );
 }
