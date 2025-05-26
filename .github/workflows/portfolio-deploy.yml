@@ -1,0 +1,90 @@
+name: Deploy Portfolio
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  detect_changes:
+    name: Detect Changed Files
+    runs-on: ubuntu-latest
+    outputs:
+      portfolio_frontend: ${{ steps.filter.outputs.portfolio_frontend }}
+      # newsletter_frontend: ${{ steps.filter.outputs.newsletter_frontend }}
+      shared_frontend: ${{ steps.filter.outputs.shared_frontend }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check for file changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            portfolio_frontend:
+              - 'frontend/portfolio/**'
+            # newsletter_frontend:
+            #   - 'frontend/newsletter/**'
+            shared_frontend:
+              - 'frontend/common/**'
+
+  frontend_tests:
+    name: Frontend Tests
+    needs: detect_changes
+    if: ${{ needs.detect_changes.outputs.portfolio_frontend == 'true' || needs.detect_changes.outputs.shared_frontend == 'true' }}
+    # || needs.detect_changes.outputs.newsletter_frontend == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: |
+          if [[ "${{ needs.detect_changes.outputs.portfolio_frontend }}" == "true" || "${{ needs.detect_changes.outputs.shared_frontend }}" == "true" ]]; then
+            cd frontend/portfolio && npm test
+          fi
+  # if [[ "${{ needs.detect_changes.outputs.newsletter_frontend }}" == "true" || "${{ needs.detect_changes.outputs.shared_frontend }}" == "true" ]]; then
+  #   cd frontend/newsletter && npm test
+  # fi
+
+  # deploy_frontend:
+  #   name: Deploy Frontend to AWS Amplify
+  #   needs: [detect_changes, frontend_tests]
+  #   if: ${{ github.ref == 'refs/heads/main' && (needs.detect_changes.outputs.portfolio_frontend == 'true' || needs.detect_changes.outputs.newsletter_frontend == 'true' || needs.detect_changes.outputs.shared_frontend == 'true') }}
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-1
+
+  #     - name: Deploy to AWS Amplify
+  #       run: |
+  #         # You can use the AWS CLI or Amplify CLI to trigger the deployment
+  #         # This example uses the AWS CLI
+  #         if [[ "${{ needs.detect_changes.outputs.portfolio_frontend }}" == "true" || "${{ needs.detect_changes.outputs.shared_frontend }}" == "true" ]]; then
+  #           aws amplify start-job --app-id ${{ secrets.AMPLIFY_APP_ID }} --branch-name main --job-type RELEASE
+  #         fi
