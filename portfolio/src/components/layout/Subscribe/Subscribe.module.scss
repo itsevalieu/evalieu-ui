@@ -26,13 +26,13 @@ $transition: all 0.3s ease;
 }
 
 // Contact Section
-.contact-section {
+.contact {
   background-color: $secondary-color;
   padding: 80px 0;
 }
 
 // Container
-.contact-container {
+.contactContainer {
   max-width: 800px;
   margin: 0 auto;
   padding: 40px 20px;
@@ -42,7 +42,7 @@ $transition: all 0.3s ease;
 }
 
 // Title
-.contact-title {
+.contactTitle {
   text-align: center;
   color: $text-color;
   margin-bottom: 30px;
@@ -60,14 +60,14 @@ $transition: all 0.3s ease;
 }
 
 // Form
-.contact-form {
+.contactForm {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
 // Form Groups
-.form-group {
+.formGroup {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -105,7 +105,7 @@ $transition: all 0.3s ease;
     min-height: 120px;
   }
 
-  .error-message {
+  .errorMessage {
     color: $error-color;
     font-size: 14px;
     margin-top: 4px;
@@ -134,7 +134,7 @@ $transition: all 0.3s ease;
 }
 
 // Success Message
-.success-message {
+.successMessage {
   text-align: center;
   padding: 30px;
 
@@ -155,21 +155,21 @@ $transition: all 0.3s ease;
 
 // Responsive adjustments
 @media (max-width: 768px) {
-  .contact-section {
+  .contact {
     padding: 60px 0;
   }
 
-  .contact-container {
+  .contactContainer {
     padding: 30px 15px;
   }
 
-  .contact-title {
+  .contactTitle {
     font-size: 24px;
   }
 }
 
 @media (max-width: 480px) {
-  .form-group {
+  .formGroup {
     input,
     textarea {
       padding: 10px 14px;

@@ -1,7 +1,7 @@
 "use client";
 import Head from "next/head";
-import Navbar from "../components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
+import Navbar from "../components/layout/Navbar/Navbar";
+import { Footer } from "@/components/layout/Footer/Footer";
 
 export default function Layout({ children, title = "My Portfolio" }) {
   return (

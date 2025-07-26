@@ -1,34 +1,25 @@
 import Link from "next/link";
 import { projects } from "../data/projects";
-import ContactSection from "../components/layout/Contact";
+import ContactSection from "../components/layout/Contact/Contact";
+import styles from "./Home.module.scss";
 
 export default function Home() {
   // Show only the latest 3 projects on the homepage
   const latestProjects = projects.slice(0, 3);
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "2rem 1rem" }}>
-      <section style={{ marginBottom: "4rem", textAlign: "center" }}>
-        <h1 style={{ fontSize: "3rem", marginBottom: "1rem" }}>
-          Hi, I'm Developer Name
-        </h1>
-        <p style={{ fontSize: "1.2rem", maxWidth: "800px", margin: "0 auto" }}>
+    <div className={styles.container}>
+      <section className={styles.hero}>
+        <h1 className={styles.heroTitle}>Hi, I'm Eva Lieu</h1>
+        <p className={styles.heroDescription}>
           A passionate web developer focused on creating modern, responsive
           websites and applications.
         </p>
       </section>
 
-      <section style={{ marginBottom: "4rem" }}>
-        <h2 style={{ marginBottom: "1rem", textAlign: "center" }}>
-          Latest Projects
-        </h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "2rem",
-          }}
-        >
+      <section className={styles.latestProjects}>
+        <h2 className={styles.latestProjectsTitle}>Latest Projects</h2>
+        <div className={styles.projectGrid}>
           {latestProjects.map((project, index) => (
             <div
               key={index}
@@ -85,43 +76,11 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div style={{ textAlign: "center", marginTop: "2rem" }}>
-          <Link
-            href="/projects"
-            style={{
-              display: "inline-block",
-              padding: "0.75rem 1.5rem",
-              background: "var(--primary-color)",
-              color: "white",
-              borderRadius: "4px",
-              fontWeight: "500",
-            }}
-          >
-            View All Projects
-          </Link>
-        </div>
       </section>
 
       <section id="contact" style={{ textAlign: "center" }}>
-        <h2 style={{ marginBottom: "1rem" }}>Get In Touch</h2>
-        <p style={{ marginBottom: "2rem" }}>
-          I'm currently available for freelance work or full-time positions.
-        </p>
-        <a
-          href="mailto:your.email@example.com"
-          style={{
-            display: "inline-block",
-            padding: "0.75rem 1.5rem",
-            background: "var(--primary-color)",
-            color: "white",
-            borderRadius: "4px",
-            fontWeight: "500",
-          }}
-        >
-          Contact Me
-        </a>
+        <ContactSection />
       </section>
-      <ContactSection />
     </div>
   );
 }
