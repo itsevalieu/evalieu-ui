@@ -1,4 +1,4 @@
-import ProjectTimeline from "../../components/projects/ProjectTimeline";
+import ProjectTimeline from "../../components/projects/Projects/ProjectTimeline";
 import { projects } from "../../data/projects";
 
 export default function Projects() {

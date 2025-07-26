@@ -1,4 +1,4 @@
-import styles from "./Timeline.module.scss";
+import styles from "./Achievement.module.scss";
 import { Achievement } from "@/types/achievement";
 
 export default function AchievementItem({
@@ -9,9 +9,10 @@ export default function AchievementItem({
   return (
     <div className={styles.achievementItem}>
       <div className={styles.date}>{achievement.date}</div>
-      <div className={styles.achievementContent}>
-        <h3>{achievement.title}</h3>
-        <p>{achievement.context}</p>
+      <div className={styles.content}>
+        <p>
+          <strong>{achievement.title}</strong> - {achievement.context}
+        </p>
       </div>
     </div>
   );

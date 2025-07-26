@@ -1,14 +1,22 @@
 "use client";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import Layout from "../../layout";
 import { projects } from "../../../data/projects";
-import styles from "../../../components/projects/Timeline.module.scss";
+import { achievements as achievementList } from "../../../data/achievements";
+import AchievementTimeline from "@/components/projects/Achievements/AchievementTimeline";
+import { Achievement } from "@/types/achievement";
+import styles from "./ProjectDetail.module.scss";
 
 export default function ProjectDetail() {
   const { id } = useParams() as { id: string };
+
   // Find the current project
   const project = projects.find((p) => p.id === id);
+
+  // Filter achievements for project id
+  const achievements: Achievement[] = achievementList.filter(
+    (p) => p.projectId === id
+  );
 
   // Find previous and next projects for navigation
   const currentIndex = projects.findIndex((p) => p.id === id);
@@ -129,6 +137,15 @@ export default function ProjectDetail() {
               <span key={index}>{tech}</span>
             ))}
           </div>
+        </div>
+      </div>
+
+      <div className={styles.achievements}>
+        <h2>Achievements</h2>
+        <div>
+          {achievements.length > 0 && (
+            <AchievementTimeline achievements={achievements} />
+          )}
         </div>
       </div>
 
